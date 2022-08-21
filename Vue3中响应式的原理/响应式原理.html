@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue3响应式原理</title>
+</head>
+<body>
+    
+</body>
+<script>
+    //源数据
+    const person = {
+        name:"阿修罗",
+        age:20
+    };
+    //Vue3中的响应式
+    const p = new Proxy(person,{
+        get(target,key) {
+            console.log(`读取了 ${key} 属性`);
+            return Reflect.get(target,key);
+        },
+        set(target,key,newValue) {
+            if(target[key]) {
+                console.log(`修改了 ${key} 属性,修改后的值为 ${newValue}`);
+            }else {
+                console.log(`添加了 ${key} 属性,添加的值为 ${newValue}`);
+            }
+            return Reflect.set(target,key,newValue);
+        },
+        deleteProperty(target,key) {
+            console.log(`删除了 ${key} 属性`);
+            return Reflect.deleteProperty(target,key);
+        }
+    });
+
+</script>
+</html>
